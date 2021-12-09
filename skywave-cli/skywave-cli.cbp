@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="skywave-cli" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/skywave-cli" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-m64" />
+					<Add directory="/home/absolutia/Documents/code/skywave-cli/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-m64" />
+					<Add option="-lncursesw" />
+					<Add option="-pthread" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/skywave-cli" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-m64" />
+			<Add option="-Og" />
+			<Add option="-fexceptions" />
+			<Add directory="/home/absolutia/Documents/code/skywave-cli/include" />
+			<Add directory="/home/absolutia/Documents/code/skywave-cli" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+			<Add option="-m64" />
+			<Add option="-lncursesw" />
+			<Add option="-pthread" />
+		</Linker>
+		<Unit filename="include/skw_cursesui.h" />
+		<Unit filename="include/skw_cursesui_experimental.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="include/skw_debug.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="include/skw_define.h" />
+		<Unit filename="include/skw_fileio.h" />
+		<Unit filename="include/skw_network.h" />
+		<Unit filename="main.cpp" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
