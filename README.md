@@ -1,4 +1,4 @@
 # skywave
 Chat program. Or its supposed to be. Doesn't really resemble one right now.
 Currently for command line Linux/BSD only, but we have planned a DOS port as well as GUI versions for Windows & Android.
-Uses ncurses, glibc(?) and a ton of stdlibs/std headers.
+Uses ncurses, glibc(?) and a ton of stdlibs.
