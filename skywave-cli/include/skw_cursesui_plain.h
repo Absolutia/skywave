@@ -82,6 +82,12 @@ void curses_parse(){
     }else if(strncmp(inpbuf, "exit", 32) == 0){
         clearinpbuf();
         curses_exit_confirmation();
+    }else if(dbg == true && strncmp(inpbuf, "srvtest", 32) == 0){
+        clearinpbuf();
+        DEBUG_netsrv_test();
+    }else if(dbg == true && strncmp(inpbuf, "clitest", 32) == 0){
+        clearinpbuf();
+        DEBUG_netcli_test();
     }
 
     //now we clear the input buffer
@@ -118,14 +124,27 @@ void curses_changelog(){
 }
 
 void curses_credits(){
+    clear();
+    refresh();
     curses_skw_version();
     printw("Project credits:\n\n");
     printw("Absolutia (project lead)\n");
     printw("Zephyr (some nifty ideas that won't be implemented for 100 years)\n");
+    refresh();
+    sleep(5);
     curses_prompt();
 }
 
 void curses_configure(){
+    clear();
+    refresh();
+    printw("[Skywave Client Configurator]\n\n");
+    printw("Select a username: ");
+    getnstr(inpbuf, 32);
+    for(i = 0; i < 16; i++){
+        localuser_name[i] = inpbuf[i];
+    }
+    printw("\nYour username is: %s\n", localuser_name);
     curses_prompt();
 }
 

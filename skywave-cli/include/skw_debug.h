@@ -18,3 +18,12 @@
 #include <curses.h>
 
 //i wanna put some debugging functions here but i am an uncreative slimeball so i have zero clue what exactly
+//fuck it i'll just make it a wrapper to call partially implemented shit
+
+void DEBUG_netsrv_test(){
+    netinit_server();
+}
+
+void DEBUG_netcli_test(){
+    netinit_client();
+}
