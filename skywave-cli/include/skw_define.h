@@ -4,8 +4,8 @@ using namespace std;
 static const char port[] = "POSIX"; //is this an accurate descriptor? it runs under linux and BSD, i've checked
 
 static const char majphase[] = "Alpha"; //alpha: so we're implementing features
-static const char minphase[] = "M2"; //milestone 2
-static const int revision = 160;
+static const char minphase[] = "M2"; //in milestone 2
+static const int revision = 170;
 static const int minver = 0;
 static const int majver = 0;
 
@@ -56,44 +56,22 @@ char recvbuf[1024];
 
 int lasterror;
 
-//classes, these will mainly be used by server-related stuff
-class localuser{
-    public:
-        int id; //hex, used by servers to distinguish users with the same name
-        char name[16]; //actual username
-        char nick[32]; //area specific nickname
-
-    private:
-        char password[32]; //password, used for server accounts and p2p handshakes
-        int roleid;
-};
+unsigned short localuser_id = 0; //initialize to zero, do not use for now
+unsigned short localuser_roleid = 0; //initialize to zero, do not use for now
+char localuser_name[16];
+char localuser_nick[16];
+/*char localuser_password[1024];*/ //i'm not sure how to use this yet, DO NOT USE
 
 class remoteuser{
-    public:
-        int id;
-        char name[32];
-        char nick[32];
-        int roleid;
+    unsigned short remoteuser_name[16];
+    unsigned short remoteuser_nick[16];
+    char p2p_handshake_passphrase[32];
 };
 
 class peer{
-    public:
-        char label[16];
-        int ipv4;
-        int port;
-
-    private:
-        char connection_passphrase[32];
-};
-
-class server{
-    public:
-        char label[16];
-        int ipv4; //hex ipv4
-        int port; //hex port number
-
-    private:
-        char connection_passphrase[32];
+    unsigned short index;
+    char peername[32];
+    char ipv4[16];
 };
 
 /*void objtest(){
@@ -140,4 +118,5 @@ void netinit_server();
 void netinit_client();
 
 //skw_debug
-    //sorry nothing
+void DEBUG_netsrv_test();
+void DEBUG_netcli_test();
