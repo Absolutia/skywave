@@ -144,7 +144,7 @@ void curses_configure(){
     for(i = 0; i < 16; i++){
         localuser_name[i] = inpbuf[i];
     }
-    printw("\nYour username is: %s", localuser_name);
+    printw("\nYour username is: %s\n", localuser_name);
     curses_prompt();
 }
 
