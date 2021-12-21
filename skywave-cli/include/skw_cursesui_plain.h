@@ -142,7 +142,7 @@ void curses_configure(){
     printw("Select a username: ");
     getnstr(inpbuf, 32);
     for(i = 0; i < 16; i++){
-        localuser_name = inpbuf[i];
+        localuser_name[i] = inpbuf[i];
     }
     printw("\nYour username is: %s", localuser_name);
     curses_prompt();
