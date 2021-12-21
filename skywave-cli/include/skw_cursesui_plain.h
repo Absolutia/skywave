@@ -60,8 +60,28 @@ void curses_prompt(){
 
 void curses_parse(){
     //lol i broke this function [curses_parse() in case it wasnt obvious] while i was trying to fix an issue that wasn't really an issue
-    if(strncmp(inpbuf, "srvtest", 32) == 0){
+    if(strncmp(inpbuf, "test", 32) == 0){
         printw("\ntest command\n");
+        clearinpbuf();
+        curses_prompt();
+    }else if(strncmp(inpbuf, "help", 32) == 0){
+        clearinpbuf();
+        curses_help();
+    }else if(strncmp(inpbuf, "version", 32) == 0){
+        clearinpbuf();
+        curses_skw_version();
+    }else if(strncmp(inpbuf, "changelog", 32) == 0){
+        clearinpbuf();
+        curses_changelog();
+    }else if(strncmp(inpbuf, "credits", 32) == 0){
+        clearinpbuf();
+        curses_credits();
+    }else if(strncmp(inpbuf, "configure", 32) == 0){
+        clearinpbuf();
+        curses_configure();
+    }else if(strncmp(inpbuf, "exit", 32) == 0){
+        clearinpbuf();
+        curses_exit_confirmation();
     }
 
     //now we clear the input buffer
@@ -75,7 +95,8 @@ void curses_help(){
     printw("version - display version string\n");
     printw("changelog - list changes since last version\n");
     printw("credits - developers/testers & libraries\n");
-    printw("configure - configuration utility");
+    printw("configure - configuration utility\n");
+    printw("exit - quit skywave\n");
     refresh();
     curses_prompt();
 }
