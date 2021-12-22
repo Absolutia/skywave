@@ -39,6 +39,10 @@ void skwinit(){
     t_init = false;
 }
 
+void configuration_autoload(){
+    return;
+}
+
 void exitprompt(){
     system("clear");
     cout << "Thank you for using Skywave!\n";
