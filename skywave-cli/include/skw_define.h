@@ -1,11 +1,14 @@
 //variables
 using namespace std;
 
+static const char s[2] = " ";
+char *token;
+
 static const char port[] = "POSIX"; //is this an accurate descriptor? it runs under linux and BSD, i've checked
 
 static const char majphase[] = "Alpha"; //alpha: so we're implementing features
 static const char minphase[] = "M2"; //in milestone 2
-static const int revision = 170;
+static const int revision = 180;
 static const int minver = 0;
 static const int majver = 0;
 
@@ -13,9 +16,8 @@ static const char month[] = "December";
 static const int day = 9;
 static const int year = 2021;
 
-const bool dbg = true; //signifies that this build is for debugging purposes
-
-const bool experimentalui = false; //enable experimental ui
+static const bool dbg = true; //signifies that this build is for debugging purposes
+static const bool expui = true; //enable experimental ui
 
 //init, status & thread sync variables
 unsigned short runstatus = 0;
@@ -100,6 +102,10 @@ void curses_changelog(); //show change log
 void curses_credits(); //show credits
 
 void curses_configure(); //configuration utility
+void curses_saveconfig();
+    void saveconfig();
+void curses_loadconfig();
+    void loadconfig();
 
 void curses_check_if_finished(); //check if all secondary threads are finished before exiting
 void curses_end(); //end curses sesssion
@@ -108,7 +114,9 @@ void curses_exit_confirmation(); // exit confirmation prompt
 void exitprompt(); //uhhhh same as above?
 
 //skw_cursesui_experimental
-void curses_experimental_init(); //experimental curses ui
+void EXPERIMENTAL_init(); //experimental curses ui
+void EXPERIMENTAL_prompt();
+void EXPERIMENTAL_end();
 
 //skw_fileio
 void wconfig();

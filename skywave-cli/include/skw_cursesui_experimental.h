@@ -21,6 +21,9 @@
 
 //experimental text mode windowing ui
 
+int twoy = 24;
+int twox = 1;
+
 void EXPERIMENTAL_init(){
     initscr();
     clear();
@@ -40,10 +43,30 @@ void EXPERIMENTAL_init(){
         init_pair(7, COLOR_WHITE, COLOR_BLACK);
     }
     refresh();
-    while(t_init == true){
+    /*while(t_init == true){
         t_crsrdy = true;
-    }
+    }*/
     clear();
     getmaxyx(stdscr, ay, ax);
-    return;
+    /*WINDOW *textfield = newwin(1, 80, twoy, twox);*/
+    refresh();
+    EXPERIMENTAL_prompt();
+}
+
+void EXPERIMENTAL_prompt(){
+    WINDOW *test = newwin(15, 17, 0, 0);
+    /*WINDOW *textfield = newwin();*/
+    refresh();
+    mvwprintw(test, 0, 1, "test");
+    wrefresh(test);
+    getch();
+    EXPERIMENTAL_end();
+}
+
+void EXPERIMENTAL_end(){
+    clear();
+    refresh();
+    echo();
+    endwin();
+    exitprompt();
 }

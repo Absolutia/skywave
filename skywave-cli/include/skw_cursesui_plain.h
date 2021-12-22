@@ -37,9 +37,9 @@ void curses_init(){
         init_pair(7, COLOR_WHITE, COLOR_BLACK);
     }
     refresh();
-    while(t_init == true){
+    /*while(t_init == true){
         t_crsrdy = true;
-    }
+    }*/
     curses_splash();
 }
 
@@ -88,6 +88,9 @@ void curses_parse(){
     }else if(dbg == true && strncmp(inpbuf, "clitest", 32) == 0){
         clearinpbuf();
         DEBUG_netcli_test();
+    }else{
+        clearinpbuf();
+        printw("Invalid command.\n");
     }
 
     //now we clear the input buffer
@@ -97,12 +100,12 @@ void curses_parse(){
 
 void curses_help(){
     printw("List of commands:\n\n");
-    printw("help - view this page of commands\n");
-    printw("version - display version string\n");
-    printw("changelog - list changes since last version\n");
-    printw("credits - developers/testers & libraries\n");
-    printw("configure - configuration utility\n");
-    printw("exit - quit skywave\n");
+    printw("help      | - view this page of commands\n");
+    printw("version   | - display version string\n");
+    printw("changelog | - list changes since last version\n");
+    printw("credits   | - developers/testers & libraries\n");
+    printw("configure | - configuration utility\n");
+    printw("exit      | - quit skywave\n");
     refresh();
     curses_prompt();
 }
@@ -145,6 +148,14 @@ void curses_configure(){
         localuser_name[i] = inpbuf[i];
     }
     printw("\nYour username is: %s\n", localuser_name);
+    curses_prompt();
+}
+
+void curses_saveconfig(){
+    curses_prompt();
+}
+
+void curses_loadconfig(){
     curses_prompt();
 }
 
