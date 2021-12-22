@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <stdbool.h>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
@@ -12,13 +13,13 @@
 #include <pthread.h>
 #include <signal.h>
 #include <unistd.h>
+#include <argp.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <curses.h>
-
 #include <skw_define.h>
 #include <skw_debug.h>
 
@@ -54,12 +55,15 @@ void inet(){
     /** obviously not yet implemented */
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     system("clear");
-    thread t1(curses_init); //run curses() on thread t1
-    thread t2(skwinit); //run skywinit on thread t2
-    t1.join(); //when t1 has reached the end of its function kill it
-    t2.join(); //when t2 has reached the end of its function kill it
+    if(expui == true){
+        thread t1(EXPERIMENTAL_init);
+        t1.join();
+    }else{
+        thread t1(curses_init);
+        t1.join();
+    }
     /*exitprompt(); //after all threads have merged again with the main thread, call the exit splash*/
 }
