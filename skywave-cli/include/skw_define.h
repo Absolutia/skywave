@@ -16,8 +16,9 @@ static const char month[] = "December";
 static const int day = 9;
 static const int year = 2021;
 
+static const bool autoload = true; //enable conf autoload
 static const bool dbg = true; //signifies that this build is for debugging purposes
-static const bool expui = true; //enable experimental ui
+static const bool expui = false; //enable experimental ui
 
 //init, status & thread sync variables
 unsigned short runstatus = 0;
