@@ -103,10 +103,8 @@ void curses_changelog(); //show change log
 void curses_credits(); //show credits
 
 void curses_configure(); //configuration utility
-void curses_saveconfig();
-    void saveconfig();
-void curses_loadconfig();
-    void loadconfig();
+void saveconfig();
+void loadconfig();
 
 void curses_check_if_finished(); //check if all secondary threads are finished before exiting
 void curses_end(); //end curses sesssion

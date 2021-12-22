@@ -157,29 +157,6 @@ void curses_configure(){
     curses_prompt();
 }
 
-void saveconfig(){
-    if(expui == true){
-        return;
-    }else{
-        printw("Create file pointer pFile.");
-        FILE *pFile;
-        printw("Open file conf.conf.");
-        pFile = fopen("conf.conf","w");
-        fprintf(pFile, "%d[%-1.24s]", strlen(localuser_name), localuser_name);
-        fclose(pFile);
-        curses_prompt();
-    }
-}
-
-void loadconfig(){
-
-    if(expui == true){
-        return;
-    }else{
-        curses_prompt();
-    }
-}
-
 void curses_p2p_chatsession(){
     curses_prompt();
 }

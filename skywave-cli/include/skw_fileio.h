@@ -13,10 +13,25 @@
 #include <signal.h>
 #include <unistd.h>
 
-void wconfig(){
-    FILE *config;
+void loadconfig(){
 
-    config = fopen("config.ini", "w");
-    fprintf("%s %s %s %s");
-    fclose(config);
+    if(expui == true){
+        return;
+    }else{
+        curses_prompt();
+    }
+}
+
+void saveconfig(){
+    if(expui == true){
+        return;
+    }else{
+        printw("Create file pointer pFile.");
+        FILE *pFile;
+        printw("Open file conf.conf.");
+        pFile = fopen("conf.conf","w");
+        fprintf(pFile, "%d[%-1.24s]", strlen(localuser_name), localuser_name);
+        fclose(pFile);
+        curses_prompt();
+    }
 }
