@@ -26,10 +26,16 @@ void saveconfig(){
     if(expui == true){
         return;
     }else{
-        printw("Create file pointer pFile.");
+        if(strlen(localuser_name) == NULL || strlen(localuser_name) == 0){
+            printw("Fatal error: localuser_name is undefined or of zero length.\n");
+            curses_prompt();
+        }
+
+        printw("Create file pointer pFile.\n");
         FILE *pFile;
-        printw("Open file conf.conf.");
+        printw("Open file conf.conf.\n");
         pFile = fopen("conf.conf","w");
+        printw("Write data: strlen(localuser_name): %d, localusername: [%-1.24s]\n", strlen(localuser_name), localuser_name);
         fprintf(pFile, "%d[%-1.24s]", strlen(localuser_name), localuser_name);
         fclose(pFile);
         curses_prompt();

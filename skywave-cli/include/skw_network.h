@@ -19,7 +19,7 @@
 #include <netdb.h>
 #include <curses.h>
 
-void netinit_server(){
+void TEST_netinit_server(){
     //literally some example code i copy-pasted for testing purposes
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     printw("socket retrieve done\n");
@@ -51,7 +51,7 @@ void netinit_server(){
     return;
 }
 
-void netinit_client(){
+void TEST_netinit_client(){
     //ditto my above comment for netinit_server()
     memset(recvbuf, '0', sizeof(recvbuf));
     if((sockfd = socket(AF_INET, SOCK_STREAM, 0))< 0){

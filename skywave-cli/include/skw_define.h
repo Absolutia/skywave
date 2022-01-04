@@ -18,7 +18,7 @@ static const int year = 2021;
 
 static const bool autoload = true; //enable conf autoload
 static const bool dbg = true; //signifies that this build is for debugging purposes
-static const bool expui = false; //enable experimental ui
+static const bool expui = true; //enable experimental ui
 
 //init, status & thread sync variables
 unsigned short runstatus = 0;
@@ -61,13 +61,13 @@ int lasterror;
 
 unsigned short localuser_id = 0; //initialize to zero, do not use for now
 unsigned short localuser_roleid = 0; //initialize to zero, do not use for now
-char localuser_name[16];
-char localuser_nick[16];
+char localuser_name[24];
+char localuser_nick[24];
 /*char localuser_password[1024];*/ //i'm not sure how to use this yet, DO NOT USE
 
 class remoteuser{
-    unsigned short remoteuser_name[16];
-    unsigned short remoteuser_nick[16];
+    unsigned short remoteuser_name[24];
+    unsigned short remoteuser_nick[24];
     char p2p_handshake_passphrase[32];
 };
 
@@ -115,14 +115,21 @@ void exitprompt(); //uhhhh same as above?
 //skw_cursesui_experimental
 void EXPERIMENTAL_init(); //experimental curses ui
 void EXPERIMENTAL_prompt();
+void EXPERIMENTAL_parse();
+void EXPERIMENTAL_help();
+void EXPERIMENTAL_version();
+void EXPERIMENTAL_changelog();
+void EXPERIMENTAL_credits();
+void EXPERIMENTAL_configure();
+void EXPERIMENTAL_exit_confirmation();
 void EXPERIMENTAL_end();
 
 //skw_fileio
 void wconfig();
 
 //skw_network
-void netinit_server();
-void netinit_client();
+void TEST_netinit_server();
+void TEST_netinit_client();
 
 //skw_debug
 void DEBUG_netsrv_test();

@@ -21,11 +21,11 @@
 //fuck it i'll just make it a wrapper to call partially implemented shit
 
 void DEBUG_netsrv_test(){
-    thread p2pserver(netinit_server);
+    thread p2pserver(TEST_netinit_server);
     p2pserver.join();
 }
 
 void DEBUG_netcli_test(){
-    thread p2pclient(netinit_client);
+    thread p2pclient(TEST_netinit_client);
     p2pclient.join();
 }
