@@ -1,5 +1,4 @@
 //variables
-using namespace std;
 
 static const char s[2] = " ";
 char *token;
@@ -65,6 +64,7 @@ char localuser_name[24];
 char localuser_nick[24];
 /*char localuser_password[1024];*/ //i'm not sure how to use this yet, DO NOT USE
 
+/*
 class remoteuser{
     unsigned short remoteuser_name[24];
     unsigned short remoteuser_nick[24];
@@ -75,7 +75,7 @@ class peer{
     unsigned short index;
     char peername[32];
     char ipv4[16];
-};
+};*/
 
 /*void objtest(){
     localuser bob;
@@ -84,7 +84,8 @@ class peer{
     localuser alice[5];
     alice[1].id = 1234;
     alice[1].id = alice[1].id + 2;
-}*/
+}*/ //we'll save object orientation for another time, c++ is getting in the way
+    //scratch that, found an ncurses solution for this problem, might choose to bring c++ back for EZ threading
 
 
 /** functions, sorted by file */
@@ -92,45 +93,46 @@ class peer{
 void clearinpbuf();
 
 //skw_cursesui_plain
-void curses_init(); //initialize curses
-void curses_splash(); //initial splash
-void curses_prompt(); //command prompt
-void curses_parse(); //parse commands
-void curses_clear(); //clear screen
-void curses_help(); //command list
-void curses_skw_version(); //version string
-void curses_changelog(); //show change log
-void curses_credits(); //show credits
+void* curses_init(); //initialize curses
+void* curses_splash(); //initial splash
+void* curses_prompt(); //command prompt
+void* curses_parse(); //parse commands
+void* curses_clear(); //clear screen
+void* curses_help(); //command list
+void* curses_skw_version(); //version string
+void* curses_changelog(); //show change log
+void* curses_credits(); //show credits
 
-void curses_configure(); //configuration utility
-void saveconfig();
-void loadconfig();
+void* curses_configure(); //configuration utility
+void* saveconfig();
+void* loadconfig();
 
-void curses_check_if_finished(); //check if all secondary threads are finished before exiting
-void curses_end(); //end curses sesssion
-void curses_exit_confirmation(); // exit confirmation prompt
+void* curses_check_if_finished(); //check if all secondary threads are finished before exiting
+void* curses_end(); //end curses sesssion
+void* curses_exit_confirmation(); // exit confirmation prompt
 
-void exitprompt(); //uhhhh same as above?
+void* exitprompt(); //uhhhh same as above?
 
 //skw_cursesui_experimental
-void EXPERIMENTAL_init(); //experimental curses ui
-void EXPERIMENTAL_prompt();
-void EXPERIMENTAL_parse();
-void EXPERIMENTAL_help();
-void EXPERIMENTAL_version();
-void EXPERIMENTAL_changelog();
-void EXPERIMENTAL_credits();
-void EXPERIMENTAL_configure();
-void EXPERIMENTAL_exit_confirmation();
-void EXPERIMENTAL_end();
+void* EXPERIMENTAL_init(); //experimental curses ui
+void* EXPERIMENTAL_prompt();
+void* EXPERIMENTAL_scroll();
+void* EXPERIMENTAL_parse();
+void* EXPERIMENTAL_help();
+void* EXPERIMENTAL_version();
+void* EXPERIMENTAL_changelog();
+void* EXPERIMENTAL_credits();
+void* EXPERIMENTAL_configure();
+void* EXPERIMENTAL_exit_confirmation();
+void* EXPERIMENTAL_end();
 
 //skw_fileio
-void wconfig();
+void* wconfig();
 
 //skw_network
-void TEST_netinit_server();
-void TEST_netinit_client();
+void* TEST_netinit_server();
+void* TEST_netinit_client();
 
 //skw_debug
-void DEBUG_netsrv_test();
-void DEBUG_netcli_test();
+void* DEBUG_netsrv_test();
+void* DEBUG_netcli_test();

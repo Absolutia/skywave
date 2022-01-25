@@ -1,32 +1,32 @@
-#include <iostream>
 #include <stdio.h>
-#include <cstring>
-#include <filesystem>
-#include <fstream>
-#include <string>
+#include <stdbool.h>
+#include <string.h>
 #include <math.h>
-#include <random>
-#include <chrono>
-#include <atomic>
-#include <thread>
+#include <float.h>
 #include <pthread.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netdb.h>
 #include <unistd.h>
+#include <curses.h>
 
-void loadconfig(){
+void* loadconfig(){
 
     if(expui == true){
-        return;
+        return 0;
     }else{
         curses_prompt();
     }
 }
 
-void saveconfig(){
+void* saveconfig(){
     if(expui == true){
-        return;
+        return 0;
     }else{
-        if(strlen(localuser_name) == NULL || strlen(localuser_name) == 0){
+        if(strlen(localuser_name) <= 0 || strlen(localuser_name) <= 0){
             printw("Fatal error: localuser_name is undefined or of zero length.\n");
             curses_prompt();
         }

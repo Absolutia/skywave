@@ -1,31 +1,28 @@
-#include <iostream>
-#include <filesystem>
-#include <fstream>
-#include <string>
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 #include <math.h>
-#include <random>
-#include <chrono>
-#include <atomic>
-#include <thread>
+#include <float.h>
 #include <pthread.h>
 #include <signal.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <unistd.h>
 #include <curses.h>
-
 //i wanna put some debugging functions here but i am an uncreative slimeball so i have zero clue what exactly
 //fuck it i'll just make it a wrapper to call partially implemented shit
 
-void DEBUG_netsrv_test(){
-    thread p2pserver(TEST_netinit_server);
-    p2pserver.join();
+void* DEBUG_netsrv_test(){
+    pthread_t netsrv;
+    pthread_create(&netsrv, NULL, TEST_netinit_server, NULL);
+    pthread_join(netsrv, NULL);
 }
 
-void DEBUG_netcli_test(){
-    thread p2pclient(TEST_netinit_client);
-    p2pclient.join();
+void* DEBUG_netcli_test(){
+    pthread_t netcli;
+    pthread_create(&netcli, NULL, TEST_netinit_client, NULL);
+    pthread_join(netcli, NULL);
 }
