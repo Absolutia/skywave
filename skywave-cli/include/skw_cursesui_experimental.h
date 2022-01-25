@@ -17,7 +17,7 @@
 //experimental text mode windowing ui
 
 void* EXPERIMENTAL_init(){
-    initscr();
+    stdscr = initscr();
     clear();
     refresh();
     raw();
@@ -42,9 +42,9 @@ void* EXPERIMENTAL_init(){
     getmaxyx(stdscr, ay, ax); //y is height in rows, x is width in columns
     int am = ay * ax;
     refresh();
-    WINDOW *banner = newwin(1, 80, 0, 0); //need to future proof these later
-    WINDOW *textfield = newwin(1, 80, 23, 0);
-    WINDOW *console = newwin(21, 80, 1, 0);
+    banner = newwin(1, 80, 0, 0); //need to future proof these later
+    textfield = newwin(1, 80, 23, 0);
+    console = newwin(21, 80, 1, 0);
     scrollok(console,TRUE);
     /** REMEMBER: terminal coordinates are index 0.
             To calculate the actual coordinates from getmaxyx(), the variables it is
@@ -53,63 +53,51 @@ void* EXPERIMENTAL_init(){
         must be at least one coordinate which is above zero. The y coordinate probably, I can't
         see much of a use for only x being nonzero... maybe drawing columns? I don't know.
     */
-    EXPERIMENTAL_printbanner(banner);
-    EXPERIMENTAL_prompt(textfield);
+    EXPERIMENTAL_printbanner();
+    EXPERIMENTAL_prompt();
 }
 
-/*void* EXPERIMENTAL_prompt(){
-    clear();
-    refresh();
-    printw("Skywave Communicator v%d.%d.%d [%s %s] (%s) ", majver, minver, revision, majphase, minphase, port);
-    if(dbg == true){
-        printw("[debug]\n");
-    }else{
-        printw("[release]\n");
-    }
-
-    mvaddstr(1, 0, "Line 2: send notification.\n"); /** Except this function for some reason? */
-    /*system("notify-send 'Hello world!' 'This is an example notification.' --icon=dialog-information");*/
-    mvaddstr(23, 0, "Skw: ");
-    getnstr(inpbuf, 32);
-    EXPERIMENTAL_parse();
-}
-
-void EXPERIMENTAL_printbanner(int){
+void* EXPERIMENTAL_printbanner(){
     wprintw(banner, "Skywave Communicator v0.0.190 (January 25, 2022)\n");
     wrefresh(banner);
     refresh();
-    return;
+    return 0;
 }
 
-void EXPERIMENTAL_prompt(int){
+void* EXPERIMENTAL_prompt(){
+    move(23, 0);
+    wclrtoeol(textfield);
     wprintw(textfield, "Skw: ");
-    move(23, 5); //same here
+    wrefresh(textfield);
     wgetstr(textfield, inpbuf);
-    EXPERIMENTAL_parse(console);
+    EXPERIMENTAL_parse();
 }
 
-void* EXPERIMENTAL_parse(int){
+void* EXPERIMENTAL_parse(){
     if(strncmp(inpbuf, "test", 32) == 0){
     	clearinpbuf();
-    	EXPERIMENTAL_test(console, textfield);
+    	EXPERIMENTAL_test();
     	/*printw("\ntest command\n");
         clearinpbuf();
         EXPERIMENTAL_prompt();*/
     }else if(strncmp(inpbuf, "help", 32) == 0){
     	clearinpbuf();
-        EXPERIMENTAL_help(console, textfield);
+        EXPERIMENTAL_help();
     }else if(strncmp(inpbuf, "version", 32) == 0){
     	clearinpbuf();
-        EXPERIMENTAL_version(console, textfield);
+        EXPERIMENTAL_version();
     }else if(strncmp(inpbuf, "changelog", 32) == 0){
     	clearinpbuf();
-        EXPERIMENTAL_changelog(console, textfield);
+        EXPERIMENTAL_changelog();
     }else if(strncmp(inpbuf, "credits", 32) == 0){
     	clearinpbuf();
-        EXPERIMENTAL_credits(console, textfield);
+        EXPERIMENTAL_credits();
     }else if(strncmp(inpbuf, "configure", 32) == 0){
     	clearinpbuf();
-        EXPERIMENTAL_configure(console, textfield);
+        EXPERIMENTAL_configure();
+    }else if(strncmp(inpbuf, "viewconfig", 32) == 0){
+        clearinpbuf();
+        EXPERIMENTAL_configuration();
     }else if(strncmp(inpbuf, "saveconfig", 32) == 0){
     	clearinpbuf();
         saveconfig();
@@ -118,7 +106,10 @@ void* EXPERIMENTAL_parse(int){
         loadconfig();
     }else if(strncmp(inpbuf, "exit", 32) == 0){
     	clearinpbuf();
-        EXPERIMENTAL_exit_confirmation(console, textfield);
+        EXPERIMENTAL_exit_confirmation();
+    }else if(dbg == true && strncmp(inpbuf, "notifytest", 32) == 0){
+        clearinpbuf();
+        DEBUG_notifytest();
     }else if(dbg == true && strncmp(inpbuf, "srvtest", 32) == 0){
     	clearinpbuf();
         DEBUG_netsrv_test();
@@ -127,40 +118,93 @@ void* EXPERIMENTAL_parse(int){
         DEBUG_netcli_test();
     }else{
     	clearinpbuf();
-	wprintw(console, "Invalid command.\n");
+        wprintw(console, "Invalid command.\n");
+        wrefresh(console);
+        EXPERIMENTAL_prompt();
     }
 
     clearinpbuf(); //clear inpbuf just to be sure
 }
-
-void* EXPERIMENTAL_help(int, int){
-    EXPERIMENTAL_prompt(console, textfield);
+void* EXPERIMENTAL_test(){
+    wprintw(console, "Test message.\n");
+    wrefresh(console);
+    EXPERIMENTAL_prompt();
 }
 
-void* EXPERIMENTAL_version(int, int){
-    EXPERIMENTAL_prompt(console, textfield);
+void* EXPERIMENTAL_help(){
+    wprintw(console, "List of commands:\n\n");
+    wprintw(console, "help      | - view this page of commands\n");
+    wprintw(console, "version   | - display version string\n");
+    wprintw(console, "changelog | - list changes since last version\n");
+    wprintw(console, "credits   | - developers/testers & libraries\n");
+    wprintw(console, "configure | - configuration utility\n");
+    wprintw(console, "exit      | - quit skywave\n");
+    wrefresh(console);
+    EXPERIMENTAL_prompt();
 }
 
-void* EXPERIMENTAL_changelog(int, int){
-    EXPERIMENTAL_prompt(console, textfield);
+void* EXPERIMENTAL_version(){
+    wattrset(console, COLOR_PAIR(2));
+    wprintw(console, "Skywave Communicator v%d.%d.%d [%s %s]", majver, minver, revision, majphase, minphase);
+    if(dbg == true){
+        wprintw(console, " [debug]\n");
+    }else{
+        wprintw(console, " [release]\n");
+    }
+    wattrset(console, COLOR_PAIR(7));
+    wrefresh(console);
+    EXPERIMENTAL_prompt();
 }
 
-void* EXPERIMENTAL_credits(int, int){
-    EXPERIMENTAL_prompt(console, textfield);
+void* EXPERIMENTAL_changelog(){
+    wprintw(console, "Changes since ~v0.0.150:\n");
+    wprintw(console, "  -Overhauled UI between approx. six and twelve times\n");
+    wprintw(console, "  -Bug fixes(?)\n");
+    wrefresh(console);
+    EXPERIMENTAL_prompt();
 }
 
-void* EXPERIMENTAL_configure(int, int){
-    EXPERIMENTAL_prompt(console, textfield);
+void* EXPERIMENTAL_credits(){
+    wprintw(console, "Project credits:\n");
+    wprintw(console, "  Absolutia (project lead)\n");
+    wprintw(console, "  Zephyr (some nifty ideas that won't be implemented for 100 years)\n\n");
+    wprintw(console, "Libraries used:\n");
+    wprintw(console, "  ncurses, pthread\n");
+    wrefresh(console);
+    EXPERIMENTAL_prompt();
 }
 
-void* EXPERIMENTAL_exit_confirmation(int, int){
+void* EXPERIMENTAL_configure(){
+    wprintw(console, "[Skywave Client Configurator]\n");
+    move(23, 0);
+    wrefresh(console);
+    wclrtoeol(textfield);
+    wprintw(textfield, "Select a username: ");
+    wrefresh(textfield);
+    wgetnstr(textfield, inpbuf, 32);
+    for(i = 0; i < 16; i++){
+        localuser_name[i] = inpbuf[i];
+    }
+    wprintw(console, "\nYour username is: %s\n", localuser_name);
+    wrefresh(console);
+    EXPERIMENTAL_prompt();
+}
 
+void* EXPERIMENTAL_configuration(){
+    EXPERIMENTAL_prompt();
+}
+
+void* EXPERIMENTAL_exit_confirmation(){
+    wclrtoeol(textfield);
+    wprintw(textfield, "Are you sure you would like to exit? [y/N]: ");
+    wrefresh(textfield);
+    move(23, 44);
     char ec;
     ec = getch();
     if(ec == 'y' || ec == 'Y'){
         EXPERIMENTAL_end();
     }else{
-    EXPERIMENTAL_prompt(console, textfield);
+    EXPERIMENTAL_prompt();
     }
 }
 

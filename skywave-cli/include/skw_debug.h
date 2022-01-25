@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
@@ -14,6 +15,13 @@
 #include <curses.h>
 //i wanna put some debugging functions here but i am an uncreative slimeball so i have zero clue what exactly
 //fuck it i'll just make it a wrapper to call partially implemented shit
+
+void* DEBUG_notifytest(){
+    wprintw(console, "DEBUG: Send test notification.\n");
+    wrefresh(console);
+    system("notify-send 'Hello world!' 'This is an example notification.' --icon=dialog-information");
+    EXPERIMENTAL_prompt();
+}
 
 void* DEBUG_netsrv_test(){
     pthread_t netsrv;

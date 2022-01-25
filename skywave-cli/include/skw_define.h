@@ -7,7 +7,7 @@ static const char port[] = "POSIX"; //is this an accurate descriptor? it runs un
 
 static const char majphase[] = "Alpha"; //alpha: so we're implementing features
 static const char minphase[] = "M2"; //in milestone 2
-static const int revision = 180;
+static const int revision = 190;
 static const int minver = 0;
 static const int majver = 0;
 
@@ -87,6 +87,10 @@ class peer{
 }*/ //we'll save object orientation for another time, c++ is getting in the way
     //scratch that, found an ncurses solution for this problem, might choose to bring c++ back for EZ threading
 
+WINDOW *stdscr;
+WINDOW *banner;
+WINDOW *console;
+WINDOW *textfield;
 
 /** functions, sorted by file */
 //main
@@ -115,14 +119,16 @@ void* exitprompt(); //uhhhh same as above?
 
 //skw_cursesui_experimental
 void* EXPERIMENTAL_init(); //experimental curses ui
+void* EXPERIMENTAL_printbanner();
 void* EXPERIMENTAL_prompt();
-void* EXPERIMENTAL_scroll();
 void* EXPERIMENTAL_parse();
+void* EXPERIMENTAL_test();
 void* EXPERIMENTAL_help();
 void* EXPERIMENTAL_version();
 void* EXPERIMENTAL_changelog();
 void* EXPERIMENTAL_credits();
 void* EXPERIMENTAL_configure();
+void* EXPERIMENTAL_configuration();
 void* EXPERIMENTAL_exit_confirmation();
 void* EXPERIMENTAL_end();
 
@@ -134,5 +140,6 @@ void* TEST_netinit_server();
 void* TEST_netinit_client();
 
 //skw_debug
+void* DEBUG_notifytest();
 void* DEBUG_netsrv_test();
 void* DEBUG_netcli_test();
