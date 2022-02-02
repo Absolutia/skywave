@@ -16,8 +16,7 @@
 #include <skw_define.h>
 #include <skw_debug.h>
 
-#include <skw_cursesui_plain.h>
-#include <skw_cursesui_experimental.h>
+#include <skw_cursesui.h>
 #include <skw_fileio.h>
 #include <skw_network.h>
 
@@ -56,7 +55,7 @@ void* inet(){
 int main(int argc, char *argv[])
 {
     system("clear");
-    EXPERIMENTAL_init();
+    curses_init();
     /*if(expui == true){
         pthread_t cursesui;
         pthread_create(&cursesui, NULL, EXPERIMENTAL_init, NULL);
