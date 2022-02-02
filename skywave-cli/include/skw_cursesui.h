@@ -85,7 +85,7 @@ void* curses_parse(){
         curses_help();
     }else if(strncmp(inpbuf, "version", 32) == 0){
     	clearinpbuf();
-        curses_version();
+        curses_skw_version();
     }else if(strncmp(inpbuf, "changelog", 32) == 0){
     	clearinpbuf();
         curses_changelog();
