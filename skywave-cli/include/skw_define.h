@@ -87,6 +87,8 @@ class peer{
 }*/ //we'll save object orientation for another time, c++ is getting in the way
     //scratch that, found an ncurses solution for this problem, might choose to bring c++ back for EZ threading
 
+//declare ncurses windows, as global vars
+/** DO NOT CHANGE THIS */
 WINDOW *stdscr;
 WINDOW *banner;
 WINDOW *console;
@@ -96,8 +98,20 @@ WINDOW *textfield;
 //main
 void clearinpbuf();
 
-//skw_cursesui_plain
-void* curses_init(); //initialize curses
+//skw_cursesui
+void* curses_init(); //experimental curses ui
+void* curses_printbanner(); //print banner
+void* curses_prompt(); //prompt for input
+void* curses_parse(); //parse commands
+void* curses_test(); //test command
+void* curses_help(); //display help
+void* curses_skw_version(); //version information
+void* curses_changelog(); //change log
+void* curses_credits(); //credits
+void* curses_exit_confirmation(); //exit confirmation prompt
+void* curses_end(); //end curses session
+
+/** void* curses_init(); //initialize curses
 void* curses_splash(); //initial splash
 void* curses_prompt(); //command prompt
 void* curses_parse(); //parse commands
@@ -105,32 +119,19 @@ void* curses_clear(); //clear screen
 void* curses_help(); //command list
 void* curses_skw_version(); //version string
 void* curses_changelog(); //show change log
-void* curses_credits(); //show credits
+void* curses_credits(); //show credits */
 
-void* curses_configure(); //configuration utility
+void* curses_configure(); //configurator
+void* curses_configuration(); //display configuration
 void* saveconfig();
 void* loadconfig();
 
-void* curses_check_if_finished(); //check if all secondary threads are finished before exiting
-void* curses_end(); //end curses sesssion
-void* curses_exit_confirmation(); // exit confirmation prompt
+//void* curses_check_if_finished(); //check if all secondary threads are finished before exiting
 
-void* exitprompt(); //uhhhh same as above?
+void* exitprompt();
 
 //skw_cursesui_experimental
-void* EXPERIMENTAL_init(); //experimental curses ui
-void* EXPERIMENTAL_printbanner();
-void* EXPERIMENTAL_prompt();
-void* EXPERIMENTAL_parse();
-void* EXPERIMENTAL_test();
-void* EXPERIMENTAL_help();
-void* EXPERIMENTAL_version();
-void* EXPERIMENTAL_changelog();
-void* EXPERIMENTAL_credits();
-void* EXPERIMENTAL_configure();
-void* EXPERIMENTAL_configuration();
-void* EXPERIMENTAL_exit_confirmation();
-void* EXPERIMENTAL_end();
+/** Deprecated */
 
 //skw_fileio
 void* wconfig();

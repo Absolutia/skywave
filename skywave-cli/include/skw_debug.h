@@ -20,7 +20,7 @@ void* DEBUG_notifytest(){
     wprintw(console, "DEBUG: Send test notification.\n");
     wrefresh(console);
     system("notify-send 'Hello world!' 'This is an example notification.' --icon=dialog-information");
-    EXPERIMENTAL_prompt();
+    curses_prompt();
 }
 
 void* DEBUG_netsrv_test(){
