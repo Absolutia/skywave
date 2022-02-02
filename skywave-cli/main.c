@@ -1,30 +1,23 @@
-#include <iostream>
 #include <stdio.h>
 #include <stdbool.h>
-#include <cstring>
-#include <filesystem>
-#include <fstream>
-#include <string>
+#include <string.h>
 #include <math.h>
-#include <random>
-#include <chrono>
-#include <atomic>
-#include <thread>
+#include <float.h>
 #include <pthread.h>
 #include <signal.h>
-#include <unistd.h>
-#include <argp.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <unistd.h>
 #include <curses.h>
+
 #include <skw_define.h>
 #include <skw_debug.h>
 
-#include <skw_cursesui_plain.h>
-#include <skw_cursesui_experimental.h>
+#include <skw_cursesui.h>
+#include <skw_fileio.h>
 #include <skw_network.h>
 
 void clearinpbuf(){
@@ -32,7 +25,7 @@ void clearinpbuf(){
     return;
 }
 
-void skwinit(){
+void* skwinit(){
     if(t_init == true){
     //uh, why does this still exist?
     }
@@ -43,14 +36,14 @@ void configuration_autoload(){
     return;
 }
 
-void exitprompt(){
+void* exitprompt(){
     system("clear");
-    cout << "Thank you for using Skywave!\n";
+    printf("Thank you for using Skywave!\n");
     system("sleep 3");
     exit(0);
 }
 
-void inet(){
+void* inet(){
     //when ready to attempt connection this function should run on a new thread
 
     //check contarget
@@ -62,12 +55,15 @@ void inet(){
 int main(int argc, char *argv[])
 {
     system("clear");
-    if(expui == true){
-        thread t1(EXPERIMENTAL_init);
-        t1.join();
+    curses_init();
+    /*if(expui == true){
+        pthread_t cursesui;
+        pthread_create(&cursesui, NULL, EXPERIMENTAL_init, NULL);
+        pthread_join(cursesui, NULL);
     }else{
-        thread t1(curses_init);
-        t1.join();
-    }
+        pthread_t cursesui;
+        pthread_create(&cursesui, NULL, curses_init, NULL);
+        pthread_join(cursesui, NULL);
+    }*/
     /*exitprompt(); //after all threads have merged again with the main thread, call the exit splash*/
 }

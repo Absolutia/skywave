@@ -1,25 +1,19 @@
-#include <iostream>
 #include <stdio.h>
-#include <cstring>
-#include <filesystem>
-#include <fstream>
-#include <string>
+#include <stdbool.h>
+#include <string.h>
 #include <math.h>
-#include <random>
-#include <chrono>
-#include <atomic>
-#include <thread>
+#include <float.h>
 #include <pthread.h>
 #include <signal.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <unistd.h>
 #include <curses.h>
 
-void curses_init(){
+void* curses_init(){
     initscr();
     raw();
     clear();
@@ -37,19 +31,19 @@ void curses_init(){
         init_pair(7, COLOR_WHITE, COLOR_BLACK);
     }
     refresh();
-    while(t_init == true){
+    /*while(t_init == true){
         t_crsrdy = true;
-    }
+    }*/
     curses_splash();
 }
 
-void curses_splash(){
+void* curses_splash(){
     clear();
     curses_skw_version();
     curses_prompt();
 }
 
-void curses_prompt(){
+void* curses_prompt(){
     echo();
     printw("Skw: ");
     getnstr(inpbuf, 32); /* when dealing with input functions,
@@ -58,7 +52,7 @@ void curses_prompt(){
     curses_parse();
 }
 
-void curses_parse(){
+void* curses_parse(){
     //lol i broke this function [curses_parse() in case it wasnt obvious] while i was trying to fix an issue that wasn't really an issue
     if(strncmp(inpbuf, "test", 32) == 0){
         printw("\ntest command\n");
@@ -79,6 +73,12 @@ void curses_parse(){
     }else if(strncmp(inpbuf, "configure", 32) == 0){
         clearinpbuf();
         curses_configure();
+    }else if(strncmp(inpbuf, "saveconfig", 32) == 0){
+        clearinpbuf();
+        saveconfig();
+    }else if(strncmp(inpbuf, "loadconfig", 32) == 0){
+        clearinpbuf();
+        loadconfig();
     }else if(strncmp(inpbuf, "exit", 32) == 0){
         clearinpbuf();
         curses_exit_confirmation();
@@ -88,6 +88,9 @@ void curses_parse(){
     }else if(dbg == true && strncmp(inpbuf, "clitest", 32) == 0){
         clearinpbuf();
         DEBUG_netcli_test();
+    }else{
+        clearinpbuf();
+        printw("Invalid command.\n");
     }
 
     //now we clear the input buffer
@@ -95,35 +98,35 @@ void curses_parse(){
     curses_prompt();
 }
 
-void curses_help(){
+void* curses_help(){
     printw("List of commands:\n\n");
-    printw("help - view this page of commands\n");
-    printw("version - display version string\n");
-    printw("changelog - list changes since last version\n");
-    printw("credits - developers/testers & libraries\n");
-    printw("configure - configuration utility\n");
-    printw("exit - quit skywave\n");
+    printw("help      | - view this page of commands\n");
+    printw("version   | - display version string\n");
+    printw("changelog | - list changes since last version\n");
+    printw("credits   | - developers/testers & libraries\n");
+    printw("configure | - configuration utility\n");
+    printw("exit      | - quit skywave\n");
     refresh();
     curses_prompt();
 }
 
-void curses_skw_version(){
+void* curses_skw_version(){
     printw("Skywave Communicator v%d.%d.%d [%s %s] (%s) ", majver, minver, revision, majphase, minphase, port);
     if(dbg == true){
         printw("[debug]\n");
     }else{
         printw("[release]\n");
     }
-    return;
+    return 0;
 }
 
-void curses_changelog(){
+void* curses_changelog(){
     printw("tbd here\n");
     refresh();
     curses_prompt();
 }
 
-void curses_credits(){
+void* curses_credits(){
     clear();
     refresh();
     curses_skw_version();
@@ -135,7 +138,7 @@ void curses_credits(){
     curses_prompt();
 }
 
-void curses_configure(){
+void* curses_configure(){
     clear();
     refresh();
     printw("[Skywave Client Configurator]\n\n");
@@ -148,11 +151,11 @@ void curses_configure(){
     curses_prompt();
 }
 
-void curses_p2p_chatsession(){
+void* curses_p2p_chatsession(){
     curses_prompt();
 }
 
-void curses_exit_confirmation(){
+void* curses_exit_confirmation(){
     printw("Are you sure you want to exit?\n");
     printw("[y/N] ");
     char ec;
@@ -164,7 +167,7 @@ void curses_exit_confirmation(){
     }
 }
 
-void curses_end(){
+void* curses_end(){
     clear();
     refresh();
     echo();
