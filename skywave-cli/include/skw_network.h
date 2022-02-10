@@ -13,6 +13,27 @@
 #include <unistd.h>
 #include <curses.h>
 
+//final p2p implementations go here
+void* p2p_init(){
+    //establist full-duplex p2p connection with target(s)
+    //NEEDS MULTITHREADING
+    /*
+    net_p2p_server();
+    net_p2p_client();
+    */
+    return 0;
+}
+
+void* net_p2p_server(){
+    //serverlol
+    return 0;
+}
+
+void* net_p2p_client(){
+    //clientlol
+    return 0;
+}
+
 void* TEST_netinit_server(){
     //literally some example code i copy-pasted for testing purposes
     listenfd = socket(AF_INET, SOCK_STREAM, 0);

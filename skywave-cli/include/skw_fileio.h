@@ -14,30 +14,27 @@
 #include <curses.h>
 
 void* loadconfig(){
-
-    if(expui == true){
-        return 0;
-    }else{
-        curses_prompt();
-    }
+    //blah
+    return 0;
 }
 
 void* saveconfig(){
-    if(expui == true){
-        return 0;
-    }else{
-        if(strlen(localuser_name) <= 0 || strlen(localuser_name) <= 0){
-            printw("Fatal error: localuser_name is undefined or of zero length.\n");
-            curses_prompt();
-        }
-
-        printw("Create file pointer pFile.\n");
-        FILE *pFile;
-        printw("Open file conf.conf.\n");
-        pFile = fopen("conf.conf","w");
-        printw("Write data: strlen(localuser_name): %d, localusername: [%-1.24s]\n", strlen(localuser_name), localuser_name);
-        fprintf(pFile, "%d[%-1.24s]", strlen(localuser_name), localuser_name);
-        fclose(pFile);
+    if(strlen(localuser_name) <= 0 || strlen(localuser_name) <= 0){
+        wprintw(console, "Fatal error: localuser_name is undefined or of zero length.\n");
+        wrefresh(console);
+        refresh();
         curses_prompt();
     }
+
+    wprintw(console, "Create file pointer pFile.\n");
+    wrefresh(console);
+    FILE *pFile;
+    wprintw(console, "Open file conf.conf.\n");
+    wrefresh(console);
+    pFile = fopen("conf.conf","w");
+    wprintw(console, "Write data: strlen(localuser_name): %d, localusername: [%-1.24s]\n", strlen(localuser_name), localuser_name);
+    wrefresh(console);
+    fprintf(pFile, "%d[%-1.24s]", strlen(localuser_name), localuser_name);
+    fclose(pFile);
+    curses_prompt();
 }

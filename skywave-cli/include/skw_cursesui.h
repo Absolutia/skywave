@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <curses.h>
 
-//experimental text mode windowing ui
+//text mode ui
 
 void* curses_init(){
     stdscr = initscr();
@@ -42,24 +42,22 @@ void* curses_init(){
     getmaxyx(stdscr, ay, ax); //y is height in rows, x is width in columns
     int am = ay * ax;
     refresh();
-    banner = newwin(1, 80, 0, 0); //need to future proof these later
+    versionbanner = newwin(1, 80, 0, 0); //need to future proof these later
     textfield = newwin(1, 80, 23, 0);
     console = newwin(21, 80, 1, 0);
     scrollok(console,TRUE);
     /** REMEMBER: terminal coordinates are index 0.
             To calculate the actual coordinates from getmaxyx(), the variables it is
         stored within should be subtracted by one.
-            Additionally, y=0&x=0 is invalid. Don't try to print to those coordinates. There
-        must be at least one coordinate which is above zero. The y coordinate probably, I can't
-        see much of a use for only x being nonzero... maybe drawing columns? I don't know.
+            As far as I can tell the "y=0, x=0 is invalid" bit is just straight up wrong.
     */
     curses_printbanner();
     curses_prompt();
 }
 
 void* curses_printbanner(){
-    wprintw(banner, "Skywave Communicator v0.0.190 (January 25, 2022)\n");
-    wrefresh(banner);
+    wprintw(versionbanner, "Skywave Communicator v%d.%d.%d (%s %d, %d)\n", majver, minver, revision, month, day, year);
+    wrefresh(versionbanner);
     refresh();
     return 0;
 }
@@ -80,6 +78,11 @@ void* curses_parse(){
     	/*printw("\ntest command\n");
         clearinpbuf();
         EXPERIMENTAL_prompt();*/
+    }else if(strncmp(inpbuf, "clearconsole", 32) == 0){
+        clearinpbuf();
+        wclear(console);
+        wrefresh(console);
+        curses_prompt();
     }else if(strncmp(inpbuf, "help", 32) == 0){
     	clearinpbuf();
         curses_help();
@@ -97,25 +100,22 @@ void* curses_parse(){
         curses_configure();
     }else if(strncmp(inpbuf, "viewconfig", 32) == 0){
         clearinpbuf();
-        curses_configuration();
+        curses_viewconfig();
     }else if(strncmp(inpbuf, "saveconfig", 32) == 0){
     	clearinpbuf();
         saveconfig();
     }else if(strncmp(inpbuf, "loadconfig", 32) == 0){
     	clearinpbuf();
         loadconfig();
+    }else if(strncmp(inpbuf, "connect", 32) == 0){
+        clearinpbuf();
+        connectmenu();
     }else if(strncmp(inpbuf, "exit", 32) == 0){
     	clearinpbuf();
         curses_exit_confirmation();
     }else if(dbg == true && strncmp(inpbuf, "notifytest", 32) == 0){
         clearinpbuf();
         DEBUG_notifytest();
-    }else if(dbg == true && strncmp(inpbuf, "srvtest", 32) == 0){
-    	clearinpbuf();
-        DEBUG_netsrv_test();
-    }else if(dbg == true && strncmp(inpbuf, "clitest", 32) == 0){
-    	clearinpbuf();
-        DEBUG_netcli_test();
     }else{
     	clearinpbuf();
         wprintw(console, "Invalid command.\n");
@@ -133,12 +133,16 @@ void* curses_test(){
 
 void* curses_help(){
     wprintw(console, "List of commands:\n\n");
-    wprintw(console, "help      | - view this page of commands\n");
-    wprintw(console, "version   | - display version string\n");
-    wprintw(console, "changelog | - list changes since last version\n");
-    wprintw(console, "credits   | - developers/testers & libraries\n");
-    wprintw(console, "configure | - configuration utility\n");
-    wprintw(console, "exit      | - quit skywave\n");
+    wprintw(console, "clearconsole | - clear the main console\n");
+    wprintw(console, "help         | - view this page of commands\n");
+    wprintw(console, "version      | - display version string\n");
+    wprintw(console, "changelog    | - list changes since last version\n");
+    wprintw(console, "credits      | - developers/testers & libraries\n");
+    wprintw(console, "configure    | - configuration utility\n");
+    wprintw(console, "saveconfig   | - save configuration in memory\n");
+    wprintw(console, "loadconfig   | - load configuration from disk\n");
+    wprintw(console, "connect      | - connect to a target\n");
+    wprintw(console, "exit         | - quit skywave\n");
     wrefresh(console);
     curses_prompt();
 }
@@ -157,9 +161,10 @@ void* curses_skw_version(){
 }
 
 void* curses_changelog(){
-    wprintw(console, "Changes since ~v0.0.150:\n");
-    wprintw(console, "  -Overhauled UI between approx. six and twelve times\n");
-    wprintw(console, "  -Bug fixes(?)\n");
+    wprintw(console, "Changes since v0.0.190:\n");
+    wprintw(console, "  -Preliminary networking\n");
+    wprintw(console, "  -UI improvements\n");
+    wprintw(console, "  -Bug fixes\n");
     wrefresh(console);
     curses_prompt();
 }
@@ -190,8 +195,37 @@ void* curses_configure(){
     curses_prompt();
 }
 
-void* curses_configuration(){
+void* curses_viewconfig(){
     curses_prompt();
+}
+
+void* connectmenu(){
+    wprintw(console, "Available connection targets:\n\n");
+    wprintw(console, "1) Peer-to-peer\n");
+    wprintw(console, "2) Server");
+    wattrset(console, COLOR_PAIR(1));
+    wprintw(console, "(unimplemented)\n");
+    wrefresh(console);
+    wclrtoeol(textfield);
+    wprintw(textfield, "Connection target type: ");
+    move(23, 24);
+    wrefresh(textfield);
+    refresh();
+    wgetnstr(textfield, inpbuf, 32);
+    if(strncmp(inpbuf, "1", 32) == 0){
+        //connection type is p2p
+        curses_prompt();
+    }else if(strncmp(inpbuf, "2", 32) == 0){
+        //connnection type is c2s
+        curses_prompt();
+    }else{
+        wattrset(console, COLOR_PAIR(1));
+        wprintw(console, "Invalid target type. ");
+        wattrset(console, COLOR_PAIR(7));
+        wprintw(console, "Please try again.\n");
+        wrefresh(console);
+        curses_prompt();
+    }
 }
 
 void* curses_exit_confirmation(){

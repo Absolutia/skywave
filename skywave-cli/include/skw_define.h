@@ -6,18 +6,18 @@ char *token;
 static const char port[] = "POSIX"; //is this an accurate descriptor? it runs under linux and BSD, i've checked
 
 static const char majphase[] = "Alpha"; //alpha: so we're implementing features
-static const char minphase[] = "M2"; //in milestone 2
-static const int revision = 190;
+static const char minphase[] = "M3"; //in milestone 3
+static const int revision = 195;
 static const int minver = 0;
 static const int majver = 0;
 
-static const char month[] = "December";
-static const int day = 9;
-static const int year = 2021;
+static const char month[] = "February";
+static const int day = 0;
+static const int year = 2022;
 
 static const bool autoload = true; //enable conf autoload
 static const bool dbg = true; //signifies that this build is for debugging purposes
-static const bool expui = true; //enable experimental ui
+static const bool expui = false; //<--DEPRECATE THIS, EXPUI IS NOW DEFAULT
 
 //init, status & thread sync variables
 unsigned short runstatus = 0;
@@ -87,11 +87,18 @@ class peer{
 }*/ //we'll save object orientation for another time, c++ is getting in the way
     //scratch that, found an ncurses solution for this problem, might choose to bring c++ back for EZ threading
 
+pthread_t notify;
+pthread_t p2p_netsrv;
+pthread_t p2p_netcli;
+pthread_t fileio;
+
 //declare ncurses windows, as global vars
-/** DO NOT CHANGE THIS */
+/** DO NOT CHANGE THESE */
 WINDOW *stdscr;
-WINDOW *banner;
+WINDOW *versionbanner;
+//WINDOW *connectbanner; //pos is 1y below versionbanner
 WINDOW *console;
+//WINDOW * //need a good name for this one
 WINDOW *textfield;
 
 /** functions, sorted by file */
@@ -99,7 +106,7 @@ WINDOW *textfield;
 void clearinpbuf();
 
 //skw_cursesui
-void* curses_init(); //experimental curses ui
+void* curses_init(); // curses ui
 void* curses_printbanner(); //print banner
 void* curses_prompt(); //prompt for input
 void* curses_parse(); //parse commands
@@ -111,36 +118,25 @@ void* curses_credits(); //credits
 void* curses_exit_confirmation(); //exit confirmation prompt
 void* curses_end(); //end curses session
 
-/** void* curses_init(); //initialize curses
-void* curses_splash(); //initial splash
-void* curses_prompt(); //command prompt
-void* curses_parse(); //parse commands
-void* curses_clear(); //clear screen
-void* curses_help(); //command list
-void* curses_skw_version(); //version string
-void* curses_changelog(); //show change log
-void* curses_credits(); //show credits */
+void* curses_configure(); //integrated configurator
+void* curses_viewconfig(); //display configuration
+void* saveconfig(); //save configuration
+void* loadconfig(); //load configuration
+void* connectmenu();
 
-void* curses_configure(); //configurator
-void* curses_configuration(); //display configuration
-void* saveconfig();
-void* loadconfig();
-
-//void* curses_check_if_finished(); //check if all secondary threads are finished before exiting
+//void* curses_check_if_finished(); //check if all secondary threads are finished before exiting <- deprecate because all threads terminate on process exit
 
 void* exitprompt();
-
-//skw_cursesui_experimental
-/** Deprecated */
 
 //skw_fileio
 void* wconfig();
 
 //skw_network
+void* p2p_init();
+void* net_p2p_server();
+void* net_p2p_client();
 void* TEST_netinit_server();
 void* TEST_netinit_client();
 
 //skw_debug
 void* DEBUG_notifytest();
-void* DEBUG_netsrv_test();
-void* DEBUG_netcli_test();
