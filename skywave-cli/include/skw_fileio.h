@@ -1,9 +1,9 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
 #include <float.h>
-#include <pthread.h>
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -11,11 +11,12 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <curses.h>
 
 void* loadconfig(){
     //blah
-    return 0;
+    curses_cmdprompt();
 }
 
 void* saveconfig(){
@@ -23,7 +24,7 @@ void* saveconfig(){
         wprintw(console, "Fatal error: localuser_name is undefined or of zero length.\n");
         wrefresh(console);
         refresh();
-        curses_prompt();
+        curses_cmdprompt();
     }
 
     wprintw(console, "Create file pointer pFile.\n");
@@ -36,5 +37,5 @@ void* saveconfig(){
     wrefresh(console);
     fprintf(pFile, "%d[%-1.24s]", strlen(localuser_name), localuser_name);
     fclose(pFile);
-    curses_prompt();
+    curses_cmdprompt();
 }
