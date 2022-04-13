@@ -83,6 +83,29 @@ char localuser_nick[24];
 pthread_t notify, p2p_netsrv, p2p_netcli, fileio;
 int iret1, iret2, iret3, iret4;
 
+//variables for strtok()
+    //delimiters for packet and command processing
+const char delim_space[2] = " ";
+const char delim_openpar[2] = "(";
+const char delim_closepar[2] = ")";
+const char delim_openbrak[2] = "[";
+const char delim_closebrak[2] = "]";
+const char delim_opencurl[2] = "{";
+const char delim_closecurl[2] = "}";
+const char delim_lthan[2] = "<";
+const char delim_gthan[2] = ">";
+const char delim_fslash[2] = "/";
+const char demil_bslash[2] = "\\"; //i hope this one works
+const char delim_quest[2] = "?";
+const char delim_excl[2] = "!";
+const char delim_at[2] = "@";
+const char delim_hash[2] = "#";
+const char delim_cash[2] = "$";
+const char delim_percent[2] = "%";
+const char delim_carot[2] = "^";
+const char delim_ampersand[2] = "&";
+const char delim_asterisk[2] = "*";
+
 //declare ncurses windows, as global vars
 /** DO NOT CHANGE THESE */
 WINDOW *stdscr;
