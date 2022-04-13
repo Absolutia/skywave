@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
@@ -25,45 +26,50 @@ void clearinpbuf(){
     return;
 }
 
-void* skwinit(){
-    if(t_init == true){
-    //uh, why does this still exist?
+void* returnerror(){
+    switch(ecode){
+	case 0:
+	printf("DEBUG: %d: No error returned.", ecode);
+	break;
+	case 1:
+	printf("DEBUG: %d: ERROR: Your terminal doesn't support color. You will only get monochrome output.\n", ecode);
+	break;
+	case 2:
+	printf("DEBUG: %d: FATAL: Either your terminal has incomplete or nonexistent support for function keys.\n", ecode);
+	break;
+	
+	default:
+	printf("DEBUG: %d: Unknown ecode.\n", ecode);
+	break;
     }
-    t_init = false;
-}
-
-void configuration_autoload(){
-    return;
+    return 0;
 }
 
 void* exitprompt(){
     system("clear");
-    printf("Thank you for using Skywave!\n");
-    system("sleep 3");
-    exit(0);
-}
-
-void* inet(){
-    //when ready to attempt connection this function should run on a new thread
-
-    //check contarget
-    //attmpt handshake with target
-    //attmpt to conn if protocol supported
-    /** obviously not yet implemented */
+    if(dbg == true){
+        returnerror();
+	printf("\nThank you for using Skywave!\n");
+	system("sleep 3");
+	exit(0);
+    }else{
+    	printf("Thank you for using Skywave!\n");
+	system("sleep 3");
+	exit(0);
+    }
 }
 
 int main(int argc, char *argv[])
 {
     system("clear");
-    curses_init();
-    /*if(expui == true){
-        pthread_t cursesui;
-        pthread_create(&cursesui, NULL, EXPERIMENTAL_init, NULL);
-        pthread_join(cursesui, NULL);
+    //check if a file called "nooobe" is present, and then set oobe = false if it is.
+    
+    if(autoload == true){
+        //loadconfig();
+	curses_init();
     }else{
-        pthread_t cursesui;
-        pthread_create(&cursesui, NULL, curses_init, NULL);
-        pthread_join(cursesui, NULL);
-    }*/
-    /*exitprompt(); //after all threads have merged again with the main thread, call the exit splash*/
+        curses_init();
+    }
+    /*Got rid of threading code here,
+    new threads will be spawned as needed from the curses session.*/
 }
