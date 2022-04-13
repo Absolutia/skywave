@@ -15,16 +15,6 @@
 #include <curses.h>
 
 //final p2p implementations go here
-void* p2p_init(){
-    //establish full-duplex p2p connection with target(s)
-    //NEEDS MULTITHREADING
-    /*
-    net_p2p_server();
-    net_p2p_client();
-    */
-    return 0;
-}
-
 void* net_p2p_server(){
     //serverlol
     return 0;
@@ -37,7 +27,7 @@ void* net_p2p_client(){
 
 void* TEST_netinit_server(){
     //literally some example code i copy-pasted for testing purposes
-    //turning these into netcode prototypes
+    //turning these into p2p netcode prototypes
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     netstate = 1;
     wprintw(console, "NET DBG: socket retrieve done\n");
@@ -91,7 +81,7 @@ void* TEST_netinit_server(){
 }
 
 void* TEST_netinit_client(){
-    //ditto my above comment for netinit_server()
+    //ditto my above comments for netinit_server()
     memset(recvbuf, '0', sizeof(recvbuf));
     if((sockfd = socket(AF_INET, SOCK_STREAM, 0))< 0){
         printw("\n Error: could not create socket\n");
@@ -127,7 +117,7 @@ void* TEST_netinit_client(){
         }
         close(sockfd);
     }
-
+    //original loop:
     /*while((nn = read(sockfd, recvbuf, sizeof(recvbuf)-1)) > 0){
         recvbuf[nn] = 0;
         if(fputs(recvbuf, stdout) == EOF){

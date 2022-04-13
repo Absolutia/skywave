@@ -106,6 +106,8 @@ const char delim_carot[2] = "^";
 const char delim_ampersand[2] = "&";
 const char delim_asterisk[2] = "*";
 
+char* token;
+
 //declare ncurses windows, as global vars
 /** DO NOT CHANGE THESE */
 WINDOW *stdscr;
@@ -157,11 +159,19 @@ void* wconfig();
 void* rconfig();
 
 //skw_network
-void* p2p_init();
-void* net_p2p_server();
-void* net_p2p_client();
 void* TEST_netinit_server();
 void* TEST_netinit_client();
+
+void* net_p2p_server();
+void* net_p2p_client();
+
+void* client_generatepacket();
+void* server_generatepacket();
+
+void* transmit();
+void* recieve();
+
+void* parsepacket();
 
 //skw_debug
 void* DEBUG_notifytest();
