@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
@@ -25,22 +26,50 @@ void clearinpbuf(){
     return;
 }
 
-void configuration_autoload(){
-    //temporary stub
-    return;
+void* returnerror(){
+    switch(ecode){
+	case 0:
+	printf("DEBUG: %d: No error returned.", ecode);
+	break;
+	case 1:
+	printf("DEBUG: %d: ERROR: Your terminal doesn't support color. You will only get monochrome output.\n", ecode);
+	break;
+	case 2:
+	printf("DEBUG: %d: FATAL: Either your terminal has incomplete or nonexistent support for function keys.\n", ecode);
+	break;
+	
+	default:
+	printf("DEBUG: %d: Unknown ecode.\n", ecode);
+	break;
+    }
+    return 0;
 }
 
 void* exitprompt(){
     system("clear");
-    printf("Thank you for using Skywave!\n");
-    system("sleep 3");
-    exit(0);
+    if(dbg == true){
+        returnerror();
+	printf("\nThank you for using Skywave!\n");
+	system("sleep 3");
+	exit(0);
+    }else{
+    	printf("Thank you for using Skywave!\n");
+	system("sleep 3");
+	exit(0);
+    }
 }
 
 int main(int argc, char *argv[])
 {
     system("clear");
-    curses_init();
+    //check if a file called "nooobe" is present, and then set oobe = false if it is.
+    
+    if(autoload == true){
+        //loadconfig();
+	curses_init();
+    }else{
+        curses_init();
+    }
     /*Got rid of threading code here,
     new threads will be spawned as needed from the curses session.*/
 }
