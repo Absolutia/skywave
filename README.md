@@ -14,3 +14,5 @@ The software may as well be considered to be in pre-alpha state, not much is cur
 Or equivalent. Get as close to disabling optimizations as possible to minimize compiler faults.
 ## Porting
 In case you're wondering, I'm not bothering with Windows versions or anything like that for now. I don't even have the basic features in a functional state yet!
+## To-do list
+WIP-- I'll come back to this later.
