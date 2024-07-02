@@ -24,7 +24,10 @@ struct connection_descriptor{
     uint32_t sockfd; //associated file descriptor
     struct sockaddr_in serv_sockaddr; //server's address
     struct sockaddr_in cli_sockaddr; //client's address
+    uint32_t uid; //associated user id? maybe leverage unix user stuff instead idk
 };
+
+struct connection_descriptor socktable[64000];
 
 extern char buffer[1024];
 extern char actmessage[32];
