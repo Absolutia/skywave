@@ -6,3 +6,5 @@
 `gcc -c skywave.c client.c server.c protocol.c`<br>
 `gcc -O0 -o skywave_testing skywave.o client.o server.o protocol.o`<br>
 Or equivalent. Get as close to disabling optimizations as possible to minimize compiler faults.
+## Porting
+In case you're wondering, I'm not bothering with Windows versions or anything like that for now. I don't even have the basic features in a functional state yet!
