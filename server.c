@@ -15,16 +15,23 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 
-#ifndef __SKW_PROT_H
+/*#ifndef __SKW_PROT_H
     #include "protocol.h"
     #define __SKW_PROT_H
-#endif
+#endif*/
 
 struct connection_descriptor{
-    uint32_t sockfd;
-    struct sockaddr_in serv_sockaddr;
-    struct sockaddr_in cli_sockaddr;
+    uint32_t sockfd; //associated file descriptor
+    struct sockaddr_in serv_sockaddr; //server's address
+    struct sockaddr_in cli_sockaddr; //client's address
 };
+
+extern char buffer[1024];
+extern char actmessage[32];
+
+uint32_t socks = 0; //total active sockets
+//char actmessage[32];
+//char buffer[1024];
 
 int serverloop(uint8_t flags){
     //Setup code

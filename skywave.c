@@ -15,10 +15,10 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 
-#ifndef __SKW_PROT_H
+/*#ifndef __SKW_PROT_H
     #include "protocol.h"
     #define __SKW_PROT_H
-#endif
+#endif*/
 
 char buffer[1024];
 char actmessage[] = "Skywave Communicator v0.1\n\0";

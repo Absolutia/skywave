@@ -15,10 +15,10 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 
-#ifndef __SKW_PROT_H
+/*#ifndef __SKW_PROT_H
     #include "protocol.h"
     #define __SKW_PROT_H
-#endif
+#endif*/
 
 int clientloop(uint8_t flags){
 
