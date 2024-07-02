@@ -15,18 +15,23 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 
-#ifndef __SKW_PROT_H
+/*#ifndef __SKW_PROT_H
     #include "protocol.h"
     #define __SKW_PROT_H
-#endif
+#endif*/
 
 struct connection_descriptor{
-    time_t login_time;
-    uint32_t sockfd;
-    struct sockaddr_in serv_sockaddr;
-    struct sockaddr_in cli_sockaddr;
-    struct user_meta *user_meta;
+    uint32_t sockfd; //associated file descriptor
+    struct sockaddr_in serv_sockaddr; //server's address
+    struct sockaddr_in cli_sockaddr; //client's address
 };
+
+extern char buffer[1024];
+extern char actmessage[32];
+
+uint32_t socks = 0; //total active sockets
+//char actmessage[32];
+//char buffer[1024];
 
 int serverloop(uint8_t flags){
     //Setup code
@@ -79,15 +84,16 @@ int serverloop(uint8_t flags){
             clisock = accept(listensockfd, NULL, NULL);
             if(clisock != -1){
                 errno = 0;
-                struct sockaddr_in metapeeraddr = {0};
-		
+
 		struct connection_descriptor temp = {0};
+
+                struct sockaddr_in metapeeraddr = {0};
 			
 		socklen_t sl = sizeof(temp.cli_sockaddr);
                 if(getpeername(clisock, (struct sockaddr *)&temp.cli_sockaddr, &sl) == -1){
                     perror("getpeername()");
                 }
-                fprintf(stdout, "Got connection from %s\n", inet_ntoa(metapeeraddr.sin_addr));
+                fprintf(stdout, "Got connection from %s\n", inet_ntoa(temp.cli_sockaddr.sin_addr));
 
                 memset(buffer, 0, sizeof(buffer));
                 memcpy(buffer, actmessage, sizeof(actmessage));
