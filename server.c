@@ -26,7 +26,12 @@ struct connection_descriptor{
     struct sockaddr_in cli_sockaddr; //client's address
 };
 
+extern char buffer[1024];
+extern char actmessage[32];
+
 uint32_t socks = 0; //total active sockets
+//char actmessage[32];
+//char buffer[1024];
 
 int serverloop(uint8_t flags){
     //Setup code
