@@ -15,4 +15,8 @@ Or equivalent. Get as close to disabling optimizations as possible to minimize c
 ## Porting
 In case you're wondering, I'm not bothering with Windows versions or anything like that for now. I don't even have the basic features in a functional state yet!
 ## To-do list
-WIP-- I'll come back to this later.
+- [ ] Daemonize core
+- [ ] Network code
+  - [ ] Server: Socket juggling (Absolutia/skywave#4)
+  - [ ] Server: Multiplex socket I/O with `poll()`
+  - [ ] All: Implement core relay protocol
