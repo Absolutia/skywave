@@ -6,8 +6,8 @@ Any kind of data should be ferriable through Skywave, though heavy focus in the 
 Because this is intended for use by everyone. SSH has an unacceptably steep learning curve for many (most) people. Additionally, though SSH has the capability to do something like this, it was neither explicitly intended for that and cumbersome to actually use. This problem becomes most apparent when trying to forward large amounts of ports: tunnels don't like to be persistent, plus it's easy to screw things up, not to mention excruciatingly tedious. This project intends to make that easier for lay people, make it faster and make it automatic. There is one problem with this picture, however, because it is mainly intended to be used by the software itself, "automagically" configuring a tunnel when configured to do so. It cannot completely replace SSH on its own because our daemon refuses to run as `root` and therefore (as far as I know) cannot mass capture or transmit traffic like that. Even if it did, I'm not sure how the OpenSSH daemon even does that...<br><br>It's an open problem, and it would seem like it could be solved with a dedicated program that connects to `skywaved`. Implementation suggestions welcome.
 ## Usage
 The software may as well be considered to be in pre-alpha state, not much is currently functional, especially not the planned relay functionality.
-`./skywave_testing` with no options defaults to client. It will always try to connect on 127.0.0.1:50000(?)<br>
-`./skywave_testing server` starts the server code, listening for incoming connections on port 50000(?)<br>
+`./skywave_testing` with no options defaults to client. It will always try to connect on 127.0.0.1:50000<br>
+`./skywave_testing server` starts the server code, listening for incoming connections on port 50000<br>
 ## Compiling
 `gcc -c skywave.c client.c server.c protocol.c`<br>
 `gcc -O0 -o skywave_testing skywave.o client.o server.o protocol.o`<br>
