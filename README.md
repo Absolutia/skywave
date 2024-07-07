@@ -9,7 +9,7 @@ The basic architecture shall be that one or more processes will connect to the n
 ## Why not use SSH instead?
 You can if you want to. You can also combine the two. I personally prefer software which is simple to configure and use, and it happens that I need something that implements SSH-like tunneling but takes zero effort for technologically illiterate people to set up and use. Software, especially network code, is useless if there's nobody to use it.
 ## To-do list
-- [ ] Better error handling
+- [ ] Unified error handling and logging
 - [ ] Signal handling
 - [ ] Daemonize core
 - [ ] Network code
